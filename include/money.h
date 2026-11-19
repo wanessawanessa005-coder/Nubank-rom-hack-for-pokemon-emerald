@@ -1,11 +1,18 @@
 #ifndef GUARD_MONEY_H
 #define GUARD_MONEY_H
 
+#define MAX_MONEY 999999
+#define NUBANK_MAX_BALANCE 9999999
+
 u32 GetMoney(u32 *moneyPtr);
 void SetMoney(u32 *moneyPtr, u32 newValue);
 bool8 IsEnoughMoney(u32 *moneyPtr, u32 cost);
 void AddMoney(u32 *moneyPtr, u32 toAdd);
 void RemoveMoney(u32 *moneyPtr, u32 toSub);
+u32 Nubank_GetBalance(void);
+void Nubank_SetBalance(u32 newValue);
+u32 Nubank_AddBalance(u32 toAdd);
+void Nubank_RemoveBalance(u32 toSub);
 bool8 IsEnoughForCostInVar0x8005(void);
 void SubtractMoneyFromVar0x8005(void);
 void PrintMoneyAmountInMoneyBox(u8 windowId, int amount, u8 speed);

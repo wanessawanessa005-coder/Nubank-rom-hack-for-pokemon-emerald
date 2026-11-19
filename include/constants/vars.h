@@ -274,6 +274,10 @@
 #define VAR_UNUSED_0x40FE                                0x40FE // Unused Var
 #define VAR_UNUSED_0x40FF                                0x40FF // Unused Var
 
+// Nubank account balance: a 32-bit number stored across two (previously unused) vars
+#define VAR_NUBANK_BALANCE_LOW                           VAR_UNUSED_0x40FE
+#define VAR_NUBANK_BALANCE_HIGH                          VAR_UNUSED_0x40FF
+
 #define VARS_END                                         0x40FF
 #define VARS_COUNT                                       (VARS_END - VARS_START + 1)
 

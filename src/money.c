@@ -9,8 +9,7 @@
 #include "sprite.h"
 #include "strings.h"
 #include "decompress.h"
-
-#define MAX_MONEY 999999
+#include "constants/vars.h"
 
 EWRAM_DATA static u8 sMoneyBoxWindowId = 0;
 EWRAM_DATA static u8 sMoneyLabelSpriteId = 0;
@@ -118,6 +117,46 @@ void RemoveMoney(u32 *moneyPtr, u32 toSub)
         toSet -= toSub;
 
     SetMoney(moneyPtr, toSet);
+}
+
+// Nubank account: the balance lives in two save vars (low and high 16 bits),
+// so it is stored in the save file without changing the save block layout.
+u32 Nubank_GetBalance(void)
+{
+    return ((u32)VarGet(VAR_NUBANK_BALANCE_HIGH) << 16) | VarGet(VAR_NUBANK_BALANCE_LOW);
+}
+
+void Nubank_SetBalance(u32 newValue)
+{
+    if (newValue > NUBANK_MAX_BALANCE)
+        newValue = NUBANK_MAX_BALANCE;
+    VarSet(VAR_NUBANK_BALANCE_LOW, newValue & 0xFFFF);
+    VarSet(VAR_NUBANK_BALANCE_HIGH, newValue >> 16);
+}
+
+// Returns the part of toAdd that did not fit in the account (0 if everything fit).
+u32 Nubank_AddBalance(u32 toAdd)
+{
+    u32 balance = Nubank_GetBalance();
+    u32 room = (balance >= NUBANK_MAX_BALANCE) ? 0 : NUBANK_MAX_BALANCE - balance;
+
+    if (toAdd > room)
+    {
+        Nubank_SetBalance(balance + room);
+        return toAdd - room;
+    }
+    Nubank_SetBalance(balance + toAdd);
+    return 0;
+}
+
+void Nubank_RemoveBalance(u32 toSub)
+{
+    u32 balance = Nubank_GetBalance();
+
+    if (balance < toSub)
+        Nubank_SetBalance(0);
+    else
+        Nubank_SetBalance(balance - toSub);
 }
 
 bool8 IsEnoughForCostInVar0x8005(void)

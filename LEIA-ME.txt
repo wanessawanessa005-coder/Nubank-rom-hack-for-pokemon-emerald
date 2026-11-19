@@ -1,0 +1,5 @@
+Nubank PC mod for pokeemerald (Portuguese menu, Pix prize money)
+Built against pret/pokeemerald commit: 9103e529c2fbdd7add4a1ff3350c6c1f92112c42
+
+Files here replace the same files in the repository. If the repository is at a
+different commit, use the patch instead:  git apply nubank.patch

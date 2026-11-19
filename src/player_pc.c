@@ -15,6 +15,7 @@
 #include "mail.h"
 #include "main.h"
 #include "malloc.h"
+#include "money.h"
 #include "menu.h"
 #include "menu_helpers.h"
 #include "overworld.h"
@@ -35,8 +36,29 @@ enum {
     MENU_ITEMSTORAGE,
     MENU_MAILBOX,
     MENU_DECORATION,
-    MENU_TURNOFF
+    MENU_TURNOFF,
+    MENU_NUBANK
 };
+
+// Nubank menu options
+enum {
+    NUBANK_DEPOSIT,
+    NUBANK_WITHDRAW,
+    NUBANK_EXIT
+};
+
+// Nubank amount menu options
+enum {
+    NUBANK_AMOUNT_1,
+    NUBANK_AMOUNT_2,
+    NUBANK_AMOUNT_3,
+    NUBANK_AMOUNT_ALL,
+    NUBANK_AMOUNT_BACK
+};
+
+// Task data slots used by the Nubank screens
+#define NUBANK_TASK_WINDOW_ID  6
+#define NUBANK_TASK_IS_DEPOSIT 7
 
 // Item storage menu options
 enum {
@@ -114,6 +136,15 @@ static void PlayerPC_ItemStorage(u8);
 static void PlayerPC_Mailbox(u8);
 static void PlayerPC_Decoration(u8);
 static void PlayerPC_TurnOff(u8);
+static void PlayerPC_Nubank(u8);
+
+static void Nubank_ShowMenuPrompt(u8);
+static void Nubank_InitMainMenu(u8);
+static void Nubank_MainMenuInput(u8);
+static void Nubank_AskAmount(u8);
+static void Nubank_InitAmountMenu(u8);
+static void Nubank_AmountMenuInput(u8);
+static void Nubank_DoTransfer(u8, u32);
 
 static void Mailbox_DoMailMoveToBag(u8);
 static void Mailbox_DoMailRead(u8);
@@ -189,12 +220,79 @@ static const u8 *const sItemStorage_OptionDescriptions[] =
     [MENU_EXIT]     = gText_GoBackPrevMenu,
 };
 
+// Nubank text. Note: the game font has no "ã" or "õ", and "$" is the end-of-text
+// marker, so amounts use the Pokédollar symbol (¥) instead of "R$".
+static const u8 sText_Nubank[] = _("NUBANK");
+static const u8 sText_NubankDeposit[] = _("DEPOSITAR");
+static const u8 sText_NubankWithdraw[] = _("SACAR");
+static const u8 sText_NubankExit[] = _("SAIR");
+static const u8 sText_NubankAmount1[] = _("¥100");
+static const u8 sText_NubankAmount2[] = _("¥500");
+static const u8 sText_NubankAmount3[] = _("¥1000");
+static const u8 sText_NubankAmountAll[] = _("TUDO");
+static const u8 sText_NubankAmountBack[] = _("VOLTAR");
+static const u8 sText_NubankPrompt[] = _("Seu saldo Nubank: ¥{STR_VAR_1}\nO que deseja fazer?");
+static const u8 sText_NubankHowMuch[] = _("Qual valor?");
+static const u8 sText_NubankDepositDone[] = _("Depósito de ¥{STR_VAR_2} feito!\nSaldo: ¥{STR_VAR_1}{PAUSE_UNTIL_PRESS}");
+static const u8 sText_NubankWithdrawDone[] = _("Saque de ¥{STR_VAR_2} feito!\nSaldo: ¥{STR_VAR_1}{PAUSE_UNTIL_PRESS}");
+static const u8 sText_NubankNoWalletMoney[] = _("Dinheiro insuficiente\nna carteira.{PAUSE_UNTIL_PRESS}");
+static const u8 sText_NubankNoBalance[] = _("Saldo insuficiente\nna conta Nubank.{PAUSE_UNTIL_PRESS}");
+static const u8 sText_NubankAccountFull[] = _("Limite da conta Nubank\natingido.{PAUSE_UNTIL_PRESS}");
+static const u8 sText_NubankWalletFull[] = _("Sua carteira está cheia.{PAUSE_UNTIL_PRESS}");
+
 static const struct MenuAction sPlayerPCMenuActions[] =
 {
     [MENU_ITEMSTORAGE] = { gText_ItemStorage, {PlayerPC_ItemStorage} },
     [MENU_MAILBOX]     = { gText_Mailbox,     {PlayerPC_Mailbox} },
     [MENU_DECORATION]  = { gText_Decoration,  {PlayerPC_Decoration} },
-    [MENU_TURNOFF]     = { gText_TurnOff,     {PlayerPC_TurnOff} }
+    [MENU_TURNOFF]     = { gText_TurnOff,     {PlayerPC_TurnOff} },
+    [MENU_NUBANK]      = { sText_Nubank,      {PlayerPC_Nubank} }
+};
+
+static const struct MenuAction sNubankMenuActions[] =
+{
+    [NUBANK_DEPOSIT]  = { sText_NubankDeposit,  {NULL} },
+    [NUBANK_WITHDRAW] = { sText_NubankWithdraw, {NULL} },
+    [NUBANK_EXIT]     = { sText_NubankExit,     {NULL} }
+};
+
+static const u8 sNubankMenu_OptionOrder[] =
+{
+    NUBANK_DEPOSIT,
+    NUBANK_WITHDRAW,
+    NUBANK_EXIT
+};
+
+static const struct MenuAction sNubankAmountActions[] =
+{
+    [NUBANK_AMOUNT_1]    = { sText_NubankAmount1,    {NULL} },
+    [NUBANK_AMOUNT_2]    = { sText_NubankAmount2,    {NULL} },
+    [NUBANK_AMOUNT_3]    = { sText_NubankAmount3,    {NULL} },
+    [NUBANK_AMOUNT_ALL]  = { sText_NubankAmountAll,  {NULL} },
+    [NUBANK_AMOUNT_BACK] = { sText_NubankAmountBack, {NULL} }
+};
+
+static const u8 sNubankAmount_OptionOrder[] =
+{
+    NUBANK_AMOUNT_1,
+    NUBANK_AMOUNT_2,
+    NUBANK_AMOUNT_3,
+    NUBANK_AMOUNT_ALL,
+    NUBANK_AMOUNT_BACK
+};
+
+// Amount for each option above. 0 means "everything".
+static const u16 sNubankAmounts[] = { 100, 500, 1000, 0 };
+
+static const struct WindowTemplate sWindowTemplate_NubankMenu =
+{
+    .bg = 0,
+    .tilemapLeft = 1,
+    .tilemapTop = 1,
+    .width = 9,
+    .height = 6,
+    .paletteNum = 15,
+    .baseBlock = 1
 };
 
 static const u8 sBedroomPC_OptionOrder[] =
@@ -202,6 +300,7 @@ static const u8 sBedroomPC_OptionOrder[] =
     MENU_ITEMSTORAGE,
     MENU_MAILBOX,
     MENU_DECORATION,
+    MENU_NUBANK,
     MENU_TURNOFF
 };
 #define NUM_BEDROOM_PC_OPTIONS ARRAY_COUNT(sBedroomPC_OptionOrder)
@@ -210,6 +309,7 @@ static const u8 sPlayerPC_OptionOrder[] =
 {
     MENU_ITEMSTORAGE,
     MENU_MAILBOX,
+    MENU_NUBANK,
     MENU_TURNOFF
 };
 #define NUM_PLAYER_PC_OPTIONS ARRAY_COUNT(sPlayerPC_OptionOrder)
@@ -243,7 +343,7 @@ static const struct WindowTemplate sWindowTemplates_MainMenus[] =
         .tilemapLeft = 1,
         .tilemapTop = 1,
         .width = 9,
-        .height = 6,
+        .height = 8,
         .paletteNum = 15,
         .baseBlock = 1
     },
@@ -252,7 +352,7 @@ static const struct WindowTemplate sWindowTemplates_MainMenus[] =
         .tilemapLeft = 1,
         .tilemapTop = 1,
         .width = 9,
-        .height = 8,
+        .height = 10,
         .paletteNum = 15,
         .baseBlock = 1
     },
@@ -487,6 +587,162 @@ static void PlayerPC_Mailbox(u8 taskId)
 static void PlayerPC_Decoration(u8 taskId)
 {
     DoPlayerRoomDecorationMenu(taskId);
+}
+
+// ---- Nubank ----------------------------------------------------------------
+
+static void PlayerPC_Nubank(u8 taskId)
+{
+    Nubank_ShowMenuPrompt(taskId);
+}
+
+// Shows the balance and asks what to do, then opens the Nubank menu.
+static void Nubank_ShowMenuPrompt(u8 taskId)
+{
+    ConvertIntToDecimalStringN(gStringVar1, Nubank_GetBalance(), STR_CONV_MODE_LEFT_ALIGN, 7);
+    StringExpandPlaceholders(gStringVar4, sText_NubankPrompt);
+    DisplayItemMessageOnField(taskId, gStringVar4, Nubank_InitMainMenu);
+}
+
+static void Nubank_OpenMenu(u8 taskId, const struct MenuAction *actions, const u8 *order, u8 count, TaskFunc inputFunc)
+{
+    struct WindowTemplate windowTemplate = sWindowTemplate_NubankMenu;
+    u8 windowId;
+
+    windowTemplate.width = GetMaxWidthInSubsetOfMenuTable(actions, order, count);
+    windowTemplate.height = count * 2;
+    windowId = AddWindow(&windowTemplate);
+    gTasks[taskId].data[NUBANK_TASK_WINDOW_ID] = windowId;
+    SetStandardWindowBorderStyle(windowId, FALSE);
+    PrintMenuActionTextsInUpperLeftCorner(windowId, count, actions, order);
+    InitMenuInUpperLeftCornerNormal(windowId, count, 0);
+    ScheduleBgCopyTilemapToVram(0);
+    gTasks[taskId].func = inputFunc;
+}
+
+static void Nubank_CloseMenu(u8 taskId)
+{
+    u8 windowId = gTasks[taskId].data[NUBANK_TASK_WINDOW_ID];
+
+    ClearStdWindowAndFrameToTransparent(windowId, FALSE);
+    ClearWindowTilemap(windowId);
+    RemoveWindow(windowId);
+    ScheduleBgCopyTilemapToVram(0);
+}
+
+static void Nubank_InitMainMenu(u8 taskId)
+{
+    Nubank_OpenMenu(taskId, sNubankMenuActions, sNubankMenu_OptionOrder, ARRAY_COUNT(sNubankMenu_OptionOrder), Nubank_MainMenuInput);
+}
+
+static void Nubank_MainMenuInput(u8 taskId)
+{
+    s8 input = Menu_ProcessInput();
+
+    switch (input)
+    {
+    case MENU_NOTHING_CHOSEN:
+        break;
+    case MENU_B_PRESSED:
+    case NUBANK_EXIT:
+        PlaySE(SE_SELECT);
+        Nubank_CloseMenu(taskId);
+        ReshowPlayerPC(taskId); // back to the PC menu
+        break;
+    default: // NUBANK_DEPOSIT or NUBANK_WITHDRAW
+        Nubank_CloseMenu(taskId);
+        gTasks[taskId].data[NUBANK_TASK_IS_DEPOSIT] = (input == NUBANK_DEPOSIT);
+        Nubank_AskAmount(taskId);
+        break;
+    }
+}
+
+static void Nubank_AskAmount(u8 taskId)
+{
+    DisplayItemMessageOnField(taskId, sText_NubankHowMuch, Nubank_InitAmountMenu);
+}
+
+static void Nubank_InitAmountMenu(u8 taskId)
+{
+    Nubank_OpenMenu(taskId, sNubankAmountActions, sNubankAmount_OptionOrder, ARRAY_COUNT(sNubankAmount_OptionOrder), Nubank_AmountMenuInput);
+}
+
+static void Nubank_AmountMenuInput(u8 taskId)
+{
+    s8 input = Menu_ProcessInput();
+
+    switch (input)
+    {
+    case MENU_NOTHING_CHOSEN:
+        break;
+    case MENU_B_PRESSED:
+    case NUBANK_AMOUNT_BACK:
+        PlaySE(SE_SELECT);
+        Nubank_CloseMenu(taskId);
+        Nubank_ShowMenuPrompt(taskId);
+        break;
+    default:
+        Nubank_CloseMenu(taskId);
+        Nubank_DoTransfer(taskId, sNubankAmounts[input]);
+        break;
+    }
+}
+
+// Moves money between the wallet and the Nubank account. amount == 0 means "everything".
+static void Nubank_DoTransfer(u8 taskId, u32 amount)
+{
+    u32 wallet = GetMoney(&gSaveBlock1Ptr->money);
+    u32 balance = Nubank_GetBalance();
+    bool8 isAll = (amount == 0);
+    const u8 *message;
+
+    if (gTasks[taskId].data[NUBANK_TASK_IS_DEPOSIT])
+    {
+        u32 room = NUBANK_MAX_BALANCE - balance;
+
+        if (wallet == 0 || (!isAll && amount > wallet))
+        {
+            message = sText_NubankNoWalletMoney;
+        }
+        else if (room == 0 || (!isAll && amount > room))
+        {
+            message = sText_NubankAccountFull;
+        }
+        else
+        {
+            if (isAll)
+                amount = (wallet < room) ? wallet : room;
+            RemoveMoney(&gSaveBlock1Ptr->money, amount);
+            Nubank_AddBalance(amount);
+            message = sText_NubankDepositDone;
+        }
+    }
+    else
+    {
+        u32 room = MAX_MONEY - wallet;
+
+        if (balance == 0 || (!isAll && amount > balance))
+        {
+            message = sText_NubankNoBalance;
+        }
+        else if (room == 0 || (!isAll && amount > room))
+        {
+            message = sText_NubankWalletFull;
+        }
+        else
+        {
+            if (isAll)
+                amount = (balance < room) ? balance : room;
+            Nubank_RemoveBalance(amount);
+            AddMoney(&gSaveBlock1Ptr->money, amount);
+            message = sText_NubankWithdrawDone;
+        }
+    }
+
+    ConvertIntToDecimalStringN(gStringVar1, Nubank_GetBalance(), STR_CONV_MODE_LEFT_ALIGN, 7);
+    ConvertIntToDecimalStringN(gStringVar2, amount, STR_CONV_MODE_LEFT_ALIGN, 7);
+    StringExpandPlaceholders(gStringVar4, message);
+    DisplayItemMessageOnField(taskId, gStringVar4, Nubank_ShowMenuPrompt);
 }
 
 static void PlayerPC_TurnOff(u8 taskId)

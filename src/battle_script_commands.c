@@ -5638,7 +5638,13 @@ static void Cmd_getmoneyreward(void)
     if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
         moneyReward += GetTrainerMoneyToGive(gTrainerBattleOpponent_B);
 
-    AddMoney(&gSaveBlock1Ptr->money, moneyReward);
+    // Trainers pay by Pix: the prize goes to the Nubank account.
+    // If the account is full, the leftover goes to the wallet instead.
+    {
+        u32 overflow = Nubank_AddBalance(moneyReward);
+        if (overflow != 0)
+            AddMoney(&gSaveBlock1Ptr->money, overflow);
+    }
     PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff1, 5, moneyReward);
 
     gBattlescriptCurrInstr++;
