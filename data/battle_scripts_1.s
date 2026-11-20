@@ -2935,6 +2935,7 @@ BattleScript_LocalBattleWonLoseTexts::
 	printstring STRINGID_TRAINER2LOSETEXT
 BattleScript_LocalBattleWonReward::
 	getmoneyreward
+	playse SE_SHOP
 	printstring STRINGID_PLAYERGOTMONEY
 	waitmessage B_WAIT_TIME_LONG
 BattleScript_PayDayMoneyAndPickUpItems::

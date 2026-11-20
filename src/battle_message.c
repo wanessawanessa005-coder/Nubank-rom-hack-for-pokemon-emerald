@@ -1956,6 +1956,155 @@ static const struct BattleWindowText *const sBattleTextOnWindowsInfo[] =
 
 static const u8 sRecordedBattleTextSpeeds[] = {8, 4, 1, 0};
 
+// Pix messages: one per trainer class. Page 1 names the trainer and the amount,
+// page 2 is a line in that trainer class's voice.
+static const u8 sText_Pix_Hiker[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pCaminhei muito pra juntar\nisso. Valeu a luta!\p");
+static const u8 sText_Pix_TeamAqua[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pO oceano é nosso... mas\neste Pix é seu!\p");
+static const u8 sText_Pix_PkmnBreeder[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pMeus Pokémon perderam, mas\nforam criados com amor!\p");
+static const u8 sText_Pix_Cooltrainer[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pTreino todo dia. Volto mais\nforte da próxima vez!\p");
+static const u8 sText_Pix_BirdKeeper[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pMeus pássaros voaram...\nTome seu Pix!\p");
+static const u8 sText_Pix_Collector[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pPerdi, mas meu acervo\ncontinua incrível!\p");
+static const u8 sText_Pix_SwimmerM[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pCaí na água! Aqui seu Pix.\nBom mergulho!\p");
+static const u8 sText_Pix_TeamMagma[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pNem o magma me salvou...\nTome o Pix!\p");
+static const u8 sText_Pix_Expert[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pAinda tenho que aprender.\nO Pix é seu!\p");
+static const u8 sText_Pix_AquaAdmin[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVou avisar o chefe...\nO Pix já foi enviado.\p");
+static const u8 sText_Pix_BlackBelt[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pSeu punho é forte! Aceite\neste Pix com honra.\p");
+static const u8 sText_Pix_AquaLeader[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVocê venceu... O Pix está\nna sua conta.\p");
+static const u8 sText_Pix_HexManiac[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVi sua vitória num sonho.\nO Pix é seu!\p");
+static const u8 sText_Pix_AromaLady[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pQue luta perfumada! Aqui\nestá o seu Pix.\p");
+static const u8 sText_Pix_RuinManiac[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pAté as ruínas tremeram!\nPix enviado.\p");
+static const u8 sText_Pix_Interviewer[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pQue luta! Vou publicar!\nPix enviado.\p");
+static const u8 sText_Pix_TuberF[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pMinha boia furou! Aqui\nseu Pix.\p");
+static const u8 sText_Pix_TuberM[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pMinha boia furou! Aqui\nseu Pix.\p");
+static const u8 sText_Pix_Lady[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pQue elegante! Aceite este\nPix com meus parabéns.\p");
+static const u8 sText_Pix_Beauty[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pBeleza e força! Parabéns,\naqui está seu Pix.\p");
+static const u8 sText_Pix_RichBoy[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pO papai manda mais. Toma\no Pix, craque!\p");
+static const u8 sText_Pix_Pokemaniac[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pMeus Pokémon raros caíram!\nPix enviado.\p");
+static const u8 sText_Pix_Guitarist[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pEssa batalha foi rock! Pix\nenviado, fera!\p");
+static const u8 sText_Pix_Kindler[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVocê apagou meu fogo!\nPix enviado.\p");
+static const u8 sText_Pix_Camper[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVou acampar e treinar mais.\nTome o Pix!\p");
+static const u8 sText_Pix_Picnicker[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pFoi um ótimo piquenique de\nbatalha! Pix enviado.\p");
+static const u8 sText_Pix_BugManiac[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pMeus insetos perderam!\nPix enviado.\p");
+static const u8 sText_Pix_Psychic[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pEu previa sua vitória...\nPix enviado.\p");
+static const u8 sText_Pix_Gentleman[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pParabéns, meu caro. O Pix\nfoi enviado com classe.\p");
+static const u8 sText_Pix_EliteFour[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVocê é digno de respeito.\nPix enviado, treinador.\p");
+static const u8 sText_Pix_Leader[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVocê mostrou grande força!\nAceite este Pix.\p");
+static const u8 sText_Pix_SchoolKid[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVou estudar mais! Pix\nda minha mesada.\p");
+static const u8 sText_Pix_SrAndJr[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pTente de novo, mano!\nO Pix é de nós dois.\p");
+static const u8 sText_Pix_Winstrate[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pNossa família perdeu...\nPix enviado!\p");
+static const u8 sText_Pix_Pokefan[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pMeus Pokémon queridos...\nPix enviado.\p");
+static const u8 sText_Pix_Youngster[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pPerdi! Aqui o Pix da\nminha mesada.\p");
+static const u8 sText_Pix_Champion[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVocê é o novo mestre!\nPix enviado.\p");
+static const u8 sText_Pix_Fisherman[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pO peixe fugiu e eu perdi!\nTome o Pix.\p");
+static const u8 sText_Pix_Triathlete[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pCorri, nadei, pedalei...\nmas perdi! Pix enviado.\p");
+static const u8 sText_Pix_DragonTamer[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pAté meu dragon se rendeu!\nPix enviado.\p");
+static const u8 sText_Pix_NinjaBoy[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pFui derrotado! Aqui seu\nPix, silencioso.\p");
+static const u8 sText_Pix_BattleGirl[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pQue luta incrível!\nPix enviado!\p");
+static const u8 sText_Pix_ParasolLady[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pMeu guarda-chuva nem\nresistiu! Pix enviado.\p");
+static const u8 sText_Pix_SwimmerF[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pQue onda de batalha!\nPix enviado.\p");
+static const u8 sText_Pix_Twins[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pPerdemos juntas...\nMas o Pix é nosso!\p");
+static const u8 sText_Pix_Sailor[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pMarujo derrotado! Pix\nenviado, chefe.\p");
+static const u8 sText_Pix_Cooltrainer2[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pTreino todo dia. Volto mais\nforte da próxima vez!\p");
+static const u8 sText_Pix_MagmaAdmin[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pPreciso avisar o chefe...\nPix enviado.\p");
+static const u8 sText_Pix_Rival[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pDa próxima eu venço!\nPix enviado, rival.\p");
+static const u8 sText_Pix_BugCatcher[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pMeu inseto perdeu! Aqui\no Pix, valeu!\p");
+static const u8 sText_Pix_PkmnRanger[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVou proteger a natureza.\nPix enviado!\p");
+static const u8 sText_Pix_MagmaLeader[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pSeu poder superou o magma!\nPix enviado.\p");
+static const u8 sText_Pix_Lass[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pQue luta emocionante!\nPix enviado.\p");
+static const u8 sText_Pix_YoungCouple[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pPerdemos juntos, mas\ncom amor! Pix enviado.\p");
+static const u8 sText_Pix_OldCouple[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pFomos derrotados, meu bem.\nEnviamos o Pix.\p");
+static const u8 sText_Pix_SisAndBro[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pMano e mana perderam!\nPix enviado.\p");
+static const u8 sText_Pix_SalonMaiden[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pQue grande batalha!\nPix enviado.\p");
+static const u8 sText_Pix_DomeAce[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVocê é o ás da cúpula!\nPix enviado.\p");
+static const u8 sText_Pix_PalaceMaven[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pSeu estilo é admirável.\nPix enviado.\p");
+static const u8 sText_Pix_ArenaTycoon[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pQue batalha de arena!\nPix enviado.\p");
+static const u8 sText_Pix_FactoryHead[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pQue vitória! Pix\nenviado.\p");
+static const u8 sText_Pix_PikeQueen[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVocê driblou o perigo!\nPix enviado.\p");
+static const u8 sText_Pix_PyramidKing[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pVocê conquistou a pirâmide!\nPix enviado.\p");
+static const u8 sText_Pix_RsProtag[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nenviou um Pix de ¥{B_BUFF1}!\pQue batalha incrível!\nPix enviado.\p");
+
+static const u8 *const sPixTexts[] =
+{
+    [TRAINER_CLASS_HIKER] = sText_Pix_Hiker,
+    [TRAINER_CLASS_TEAM_AQUA] = sText_Pix_TeamAqua,
+    [TRAINER_CLASS_PKMN_BREEDER] = sText_Pix_PkmnBreeder,
+    [TRAINER_CLASS_COOLTRAINER] = sText_Pix_Cooltrainer,
+    [TRAINER_CLASS_BIRD_KEEPER] = sText_Pix_BirdKeeper,
+    [TRAINER_CLASS_COLLECTOR] = sText_Pix_Collector,
+    [TRAINER_CLASS_SWIMMER_M] = sText_Pix_SwimmerM,
+    [TRAINER_CLASS_TEAM_MAGMA] = sText_Pix_TeamMagma,
+    [TRAINER_CLASS_EXPERT] = sText_Pix_Expert,
+    [TRAINER_CLASS_AQUA_ADMIN] = sText_Pix_AquaAdmin,
+    [TRAINER_CLASS_BLACK_BELT] = sText_Pix_BlackBelt,
+    [TRAINER_CLASS_AQUA_LEADER] = sText_Pix_AquaLeader,
+    [TRAINER_CLASS_HEX_MANIAC] = sText_Pix_HexManiac,
+    [TRAINER_CLASS_AROMA_LADY] = sText_Pix_AromaLady,
+    [TRAINER_CLASS_RUIN_MANIAC] = sText_Pix_RuinManiac,
+    [TRAINER_CLASS_INTERVIEWER] = sText_Pix_Interviewer,
+    [TRAINER_CLASS_TUBER_F] = sText_Pix_TuberF,
+    [TRAINER_CLASS_TUBER_M] = sText_Pix_TuberM,
+    [TRAINER_CLASS_LADY] = sText_Pix_Lady,
+    [TRAINER_CLASS_BEAUTY] = sText_Pix_Beauty,
+    [TRAINER_CLASS_RICH_BOY] = sText_Pix_RichBoy,
+    [TRAINER_CLASS_POKEMANIAC] = sText_Pix_Pokemaniac,
+    [TRAINER_CLASS_GUITARIST] = sText_Pix_Guitarist,
+    [TRAINER_CLASS_KINDLER] = sText_Pix_Kindler,
+    [TRAINER_CLASS_CAMPER] = sText_Pix_Camper,
+    [TRAINER_CLASS_PICNICKER] = sText_Pix_Picnicker,
+    [TRAINER_CLASS_BUG_MANIAC] = sText_Pix_BugManiac,
+    [TRAINER_CLASS_PSYCHIC] = sText_Pix_Psychic,
+    [TRAINER_CLASS_GENTLEMAN] = sText_Pix_Gentleman,
+    [TRAINER_CLASS_ELITE_FOUR] = sText_Pix_EliteFour,
+    [TRAINER_CLASS_LEADER] = sText_Pix_Leader,
+    [TRAINER_CLASS_SCHOOL_KID] = sText_Pix_SchoolKid,
+    [TRAINER_CLASS_SR_AND_JR] = sText_Pix_SrAndJr,
+    [TRAINER_CLASS_WINSTRATE] = sText_Pix_Winstrate,
+    [TRAINER_CLASS_POKEFAN] = sText_Pix_Pokefan,
+    [TRAINER_CLASS_YOUNGSTER] = sText_Pix_Youngster,
+    [TRAINER_CLASS_CHAMPION] = sText_Pix_Champion,
+    [TRAINER_CLASS_FISHERMAN] = sText_Pix_Fisherman,
+    [TRAINER_CLASS_TRIATHLETE] = sText_Pix_Triathlete,
+    [TRAINER_CLASS_DRAGON_TAMER] = sText_Pix_DragonTamer,
+    [TRAINER_CLASS_NINJA_BOY] = sText_Pix_NinjaBoy,
+    [TRAINER_CLASS_BATTLE_GIRL] = sText_Pix_BattleGirl,
+    [TRAINER_CLASS_PARASOL_LADY] = sText_Pix_ParasolLady,
+    [TRAINER_CLASS_SWIMMER_F] = sText_Pix_SwimmerF,
+    [TRAINER_CLASS_TWINS] = sText_Pix_Twins,
+    [TRAINER_CLASS_SAILOR] = sText_Pix_Sailor,
+    [TRAINER_CLASS_COOLTRAINER_2] = sText_Pix_Cooltrainer2,
+    [TRAINER_CLASS_MAGMA_ADMIN] = sText_Pix_MagmaAdmin,
+    [TRAINER_CLASS_RIVAL] = sText_Pix_Rival,
+    [TRAINER_CLASS_BUG_CATCHER] = sText_Pix_BugCatcher,
+    [TRAINER_CLASS_PKMN_RANGER] = sText_Pix_PkmnRanger,
+    [TRAINER_CLASS_MAGMA_LEADER] = sText_Pix_MagmaLeader,
+    [TRAINER_CLASS_LASS] = sText_Pix_Lass,
+    [TRAINER_CLASS_YOUNG_COUPLE] = sText_Pix_YoungCouple,
+    [TRAINER_CLASS_OLD_COUPLE] = sText_Pix_OldCouple,
+    [TRAINER_CLASS_SIS_AND_BRO] = sText_Pix_SisAndBro,
+    [TRAINER_CLASS_SALON_MAIDEN] = sText_Pix_SalonMaiden,
+    [TRAINER_CLASS_DOME_ACE] = sText_Pix_DomeAce,
+    [TRAINER_CLASS_PALACE_MAVEN] = sText_Pix_PalaceMaven,
+    [TRAINER_CLASS_ARENA_TYCOON] = sText_Pix_ArenaTycoon,
+    [TRAINER_CLASS_FACTORY_HEAD] = sText_Pix_FactoryHead,
+    [TRAINER_CLASS_PIKE_QUEEN] = sText_Pix_PikeQueen,
+    [TRAINER_CLASS_PYRAMID_KING] = sText_Pix_PyramidKing,
+    [TRAINER_CLASS_RS_PROTAG] = sText_Pix_RsProtag,
+};
+
+static const u8 *GetPixMessage(void)
+{
+    u8 class;
+
+    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    {
+        class = gTrainers[gTrainerBattleOpponent_A].trainerClass;
+        if (class < ARRAY_COUNT(sPixTexts) && sPixTexts[class] != NULL)
+            return sPixTexts[class];
+    }
+    return sText_PlayerGotMoney;
+}
+
+
 void BufferStringBattle(u16 stringID)
 {
     s32 i;
@@ -2231,6 +2380,9 @@ void BufferStringBattle(u16 stringID)
                 }
             }
         }
+        break;
+    case STRINGID_PLAYERGOTMONEY: // Nubank Pix message, per trainer class
+        stringPtr = GetPixMessage();
         break;
     default: // load a string from the table
         if (stringID >= BATTLESTRINGS_COUNT)

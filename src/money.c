@@ -159,6 +159,32 @@ void Nubank_RemoveBalance(u32 toSub)
         Nubank_SetBalance(balance - toSub);
 }
 
+#define NUBANK_MAX_TOTAL_PIX 99999999
+
+// Remembers the last Pix received and adds it to the lifetime total.
+void Nubank_RecordPix(u32 amount)
+{
+    u32 total = Nubank_GetTotalPix();
+
+    VarSet(VAR_NUBANK_LAST_PIX, (amount > 0xFFFF) ? 0xFFFF : amount);
+    if (total + amount > NUBANK_MAX_TOTAL_PIX || total + amount < total)
+        total = NUBANK_MAX_TOTAL_PIX;
+    else
+        total += amount;
+    VarSet(VAR_NUBANK_TOTAL_PIX_LOW, total & 0xFFFF);
+    VarSet(VAR_NUBANK_TOTAL_PIX_HIGH, total >> 16);
+}
+
+u32 Nubank_GetLastPix(void)
+{
+    return VarGet(VAR_NUBANK_LAST_PIX);
+}
+
+u32 Nubank_GetTotalPix(void)
+{
+    return ((u32)VarGet(VAR_NUBANK_TOTAL_PIX_HIGH) << 16) | VarGet(VAR_NUBANK_TOTAL_PIX_LOW);
+}
+
 bool8 IsEnoughForCostInVar0x8005(void)
 {
     return IsEnoughMoney(&gSaveBlock1Ptr->money, gSpecialVar_0x8005);

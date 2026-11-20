@@ -5645,6 +5645,7 @@ static void Cmd_getmoneyreward(void)
         if (overflow != 0)
             AddMoney(&gSaveBlock1Ptr->money, overflow);
     }
+    Nubank_RecordPix(moneyReward);
     PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff1, 5, moneyReward);
 
     gBattlescriptCurrInstr++;

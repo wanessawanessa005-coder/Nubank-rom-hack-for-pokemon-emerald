@@ -278,6 +278,11 @@
 #define VAR_NUBANK_BALANCE_LOW                           VAR_UNUSED_0x40FE
 #define VAR_NUBANK_BALANCE_HIGH                          VAR_UNUSED_0x40FF
 
+// Nubank Pix statistics: last Pix received, and total received (32-bit across two vars)
+#define VAR_NUBANK_LAST_PIX                              VAR_UNUSED_0x40FD
+#define VAR_NUBANK_TOTAL_PIX_LOW                         VAR_UNUSED_0x40FB
+#define VAR_NUBANK_TOTAL_PIX_HIGH                        VAR_UNUSED_0x40FC
+
 #define VARS_END                                         0x40FF
 #define VARS_COUNT                                       (VARS_END - VARS_START + 1)
 
