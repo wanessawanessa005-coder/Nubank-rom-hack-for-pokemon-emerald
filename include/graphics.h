@@ -3728,6 +3728,8 @@ extern const u32 gItemIcon_MachBike[];
 extern const u32 gItemIconPalette_MachBike[];
 extern const u32 gItemIcon_CoinCase[];
 extern const u32 gItemIconPalette_CoinCase[];
+extern const u32 gItemIcon_NuRadar[];
+extern const u32 gItemIconPalette_NuRadar[];
 extern const u32 gItemIcon_Itemfinder[];
 extern const u32 gItemIconPalette_Itemfinder[];
 extern const u32 gItemIcon_OldRod[];

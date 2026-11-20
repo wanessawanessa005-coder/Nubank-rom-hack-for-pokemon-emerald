@@ -679,15 +679,17 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
 
-    [ITEM_034] =
+    [ITEM_NU_RADAR] =
     {
-        .name = _("????????"),
-        .itemId = ITEM_NONE,
+        .name = _("NU-RADAR"),
+        .itemId = ITEM_NU_RADAR,
         .price = 0,
-        .description = sDummyDesc,
-        .pocket = POCKET_ITEMS,
+        .description = sNuRadarDesc,
+        .importance = 1,
+        .registrability = TRUE,
+        .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .fieldUseFunc = ItemUseOutOfBattle_NuRadar,
     },
 
     [ITEM_035] =

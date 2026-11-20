@@ -544,6 +544,8 @@ const u32 gItemIconPalette_MachBike[] = INCGFX_U32("graphics/items/icon_palettes
 const u32 gItemIcon_CoinCase[] = INCGFX_U32("graphics/items/icons/coin_case.png", ".4bpp.lz");
 const u32 gItemIconPalette_CoinCase[] = INCGFX_U32("graphics/items/icon_palettes/coin_case.pal", ".gbapal.lz");
 
+const u32 gItemIcon_NuRadar[] = INCGFX_U32("graphics/items/icons/nu_radar.png", ".4bpp.lz");
+const u32 gItemIconPalette_NuRadar[] = INCGFX_U32("graphics/items/icon_palettes/nu_radar.pal", ".gbapal.lz");
 const u32 gItemIcon_Itemfinder[] = INCGFX_U32("graphics/items/icons/itemfinder.png", ".4bpp.lz");
 const u32 gItemIconPalette_Itemfinder[] = INCGFX_U32("graphics/items/icon_palettes/itemfinder.pal", ".gbapal.lz");
 

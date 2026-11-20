@@ -982,6 +982,11 @@ static const u8 sCoinCaseDesc[] = _(
     "A case that holds\n"
     "up to 9,999 COINS.");
 
+static const u8 sNuRadarDesc[] = _(
+    "Scans for TRAINERS who\n"
+    "will send a PIX if you\n"
+    "beat them.");
+
 static const u8 sItemfinderDesc[] = _(
     "A device that\n"
     "signals an invisible\n"

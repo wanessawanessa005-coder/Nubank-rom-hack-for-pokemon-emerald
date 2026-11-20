@@ -500,6 +500,9 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedex::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_HeardYouBeatRivalTakePokedex, MSGBOX_DEFAULT
 	call LittlerootTown_ProfessorBirchsLab_EventScript_ReceivePokedex
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex, MSGBOX_DEFAULT
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_OneMoreThingNuRadar, MSGBOX_DEFAULT
+	giveitem ITEM_NU_RADAR
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ExplainNuRadar, MSGBOX_DEFAULT
 	closemessage
 	applywaitmovement LOCALID_BIRCHS_LAB_RIVAL, LittlerootTown_ProfessorBirchsLab_Movement_RivalApproachPlayer
 	applywaitmovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
@@ -743,6 +746,21 @@ LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex:
 	.string "and records its data in the POKéDEX,\l"
 	.string "why, {RIVAL} looks for me while I'm out\l"
 	.string "doing fieldwork, and shows me.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_OneMoreThingNuRadar:
+	.string "PROF. BIRCH: Oh, and one more thing!\p"
+	.string "A young company called NUBANK asked\n"
+	.string "me to test a new gadget in the field.\p"
+	.string "It's a clever little device. Here,\n"
+	.string "{PLAYER}{KUN}, you take it!$"
+
+LittlerootTown_ProfessorBirchsLab_Text_ExplainNuRadar:
+	.string "PROF. BIRCH: It's called the NU-RADAR.\p"
+	.string "It scans the whole region for TRAINERS\n"
+	.string "who are willing to send you prize money\l"
+	.string "by PIX if you beat them!\p"
+	.string "You'll find it in the KEY ITEMS pocket\n"
+	.string "of your BAG. Check it often!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_CountlessPokemonAwait:
 	.string "PROF. BIRCH: Countless POKéMON\n"

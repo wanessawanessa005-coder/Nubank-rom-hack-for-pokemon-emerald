@@ -22,6 +22,7 @@
 #include "item_use.h"
 #include "mail.h"
 #include "main.h"
+#include "nu_radar.h"
 #include "menu.h"
 #include "menu_helpers.h"
 #include "metatile_behavior.h"
@@ -637,6 +638,44 @@ static void Task_OpenRegisteredPokeblockCase(u8 taskId)
         CleanupOverworldWindowsAndTilemaps();
         OpenPokeblockCase(PBLOCK_CASE_FIELD, CB2_ReturnToField);
         DestroyTask(taskId);
+    }
+}
+
+// NU-RADAR: opens the full-screen radar. From the Bag it returns to the Bag;
+// when used through SELECT (registered) it returns to the field.
+static void CB2_OpenNuRadarFromBag(void)
+{
+    gMain.savedCallback = CB2_ReturnToBagMenuPocket;
+    SetMainCallback2(CB2_InitNuRadar);
+}
+
+static void Task_OpenRegisteredNuRadar(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        CleanupOverworldWindowsAndTilemaps();
+        gMain.savedCallback = CB2_ReturnToField;
+        SetMainCallback2(CB2_InitNuRadar);
+        DestroyTask(taskId);
+    }
+}
+
+void ItemUseOutOfBattle_NuRadar(u8 taskId)
+{
+    if (MenuHelpers_IsLinkActive() == TRUE)
+    {
+        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+    }
+    else if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
+    {
+        gBagMenu->newScreenCallback = CB2_OpenNuRadarFromBag;
+        Task_FadeAndCloseBagMenu(taskId);
+    }
+    else
+    {
+        gFieldCallback = FieldCB_ReturnToFieldNoScript;
+        FadeScreen(FADE_TO_BLACK, 0);
+        gTasks[taskId].func = Task_OpenRegisteredNuRadar;
     }
 }
 
